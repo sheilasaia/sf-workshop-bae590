@@ -47,6 +47,7 @@ results_path <- paste0(project_path, "/results/")
 
 # import se state bounds
 se_states_raw <- st_read(paste0(spatial_data_path,"southeast_state_bounds.shp"))
+#se_state_raw <- st_read("C:///....shp")
 
 # use st_crs() to check CRS
 st_crs(se_states_raw)
@@ -271,7 +272,7 @@ dev.off()
 my_gages_join <- my_gages_in_state %>%
   left_join(climate_data, by = "STAID") # you can also join geology_data or hydrology_data depending on what you prefer
 
-# plot gages colored by reference or non-reference
+# plot gages colored by average precipitiation of watershed
 setwd(results_path)
 pdf("my_state_gage_climate.pdf",width=11,height=8.5)
 ggplot() +
@@ -284,7 +285,7 @@ dev.off()
 my_gages_sel <- my_gages_join %>%
   select(STAID, PPTAVG_BASIN, PPTAVG_SITE) %>%
   gather(PPTAVG_BASIN, PPTAVG_SITE, key = "SCALE", value = "PPTAVG") # saves geometry too!
-# comparing average annual precipitation at the gage site to average annual precipitation at the associated watershed
+# comparing average <- annual precipitation at the gage site to average annual precipitation at the associated watershed
 
 # extra: what if we add in elevation? is there a visual spatial relationship between precipitation and elevation? (you'll need topo_data)
 
